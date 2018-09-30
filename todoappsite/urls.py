@@ -15,8 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+# for auth routes
+from . import views
 
 urlpatterns = [
+    # admin dashboard
     url(r'^admin/', admin.site.urls),
+    # auth routes
+    url(r'^signup$', views.signup, name="signup"),
+    url(r'^login$', views.login, name="login"),
+    url(r'^logout$', views.logout, name="logout"),
+    # todo list routes
     url(r'^', include('todoapp.urls'))
 ]
