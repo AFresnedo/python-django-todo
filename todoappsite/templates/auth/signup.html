@@ -7,5 +7,17 @@
     </div>
   {% endif %}
 
-  <h1>Sign Up</h1>
-{% endblock %}
+  <form method="POST" action="/signup">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Username:</label>
+      <input type="text" name="username" class="form-control"
+                                         placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" name="password" class="form-control">
+    </div>
+    <input type="submit" value="Sign Up">
+  </form>
+  {% endblock %}
