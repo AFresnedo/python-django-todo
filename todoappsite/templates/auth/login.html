@@ -2,5 +2,24 @@
 
 {% block content %}
 <h1>Login</h1>
+  {% if err %}
+    <div class="alert alert-warning">
+      <strong>Error:</strong> {{ err }}
+    </div>
+  {% endif %}
+
+  <form method="POST" action="/login">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Username:</label>
+      <input type="text" name="username" class="form-control"
+                                         placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" name="password" class="form-control">
+    </div>
+    <input type="submit" value="Login">
+  </form>
 
 {% endblock %}

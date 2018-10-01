@@ -13,11 +13,24 @@ def signup(request):
     elif request.method == 'POST':
         print('hello justin', request.POST['username'])
         print('this should look familiar', request.POST['password'])
-        # set attributes AND save
-        newUser = User.objects.create_user(
-                username=request.POST['username'],
-                password=request.POST['password'])
-        return redirect('index')
+        try:
+            # set attributes AND save
+            newUser = User.objects.create_user(
+                    username=request.POST['username'],
+                    password=request.POST['password'])
+            # WARN this if/else is not doing anything...newUser failing kicks
+            # if newUser was successfully created
+            if newUser is not None:
+                # WARN this is not auth.login, this is the method in this file
+                return login(request)
+            else:
+                render(request, 'auth/signup.html',
+                        { 'err': 'Unable to create a user with that info' })
+        except:
+            return render(request, 'auth/signup.html',
+                    { 'err': 'Please provide valid input' })
+        else:
+            return redirect('index')
 
 def login(request):
     if request.method == 'GET':
@@ -28,7 +41,7 @@ def login(request):
         print('username attempting to login:', username)
         print('with password:', password)
         # uses Django's built in authentication
-        user = authenticate(request, username=username, password=password)
+        user = auth.authenticate(request, username=username, password=password)
         # if a user object was returned, it passed the check
         if user is not None:
             # pass the request (why?) and the authenticated user
